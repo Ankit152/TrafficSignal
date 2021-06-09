@@ -56,7 +56,8 @@ metrics = keras.metrics.SparseCategoricalAccuracy(name="accuracy")
 model.compile(loss=loss,optimizer=opt,metrics=metrics)
 print("Model compiled....")
 
-train_dir="./data"
+train_dir = "./data/train"
+test_dir = "./data/test"
 
 
 RANDOM_SEED=123
@@ -86,17 +87,19 @@ train_generator = train_datagen.flow_from_directory(
     seed=RANDOM_SEED
 )
 
-'''validation_generator = test_datagen.flow_from_directory(
+validation_generator = test_datagen.flow_from_directory(
     test_dir,
     color_mode='rgb',
     target_size=img_size,
     batch_size=8,
     class_mode='sparse',
     seed=RANDOM_SEED
-)'''
-model.fit(
+)
+
+hist = model.fit(
     train_generator,
     epochs=2,
-    #validation_split=0.2
+    validation_split=0.2
 )
-print("exit")
+
+
