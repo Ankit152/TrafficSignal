@@ -1,4 +1,4 @@
 .ipynb_checkpoints
 *.jpg
 data
-__pychache__
+__pycache__

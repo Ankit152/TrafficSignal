@@ -16,23 +16,23 @@ print("All libraries are imported....")
 
 def create_model():
     model = Sequential()
-    model.add(Conv2D(32,(3,3),input_shape=(32,32,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
-    model.add(Conv2D(32,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
+    model.add(Conv2D(16,(3,3),input_shape=(32,32,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
+    model.add(Conv2D(16,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
     model.add(AveragePooling2D(pool_size=(2,2)))
     model.add(BatchNormalization())
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.3))
 
-    model.add(Conv2D(32,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
-    model.add(Conv2D(32,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
+    model.add(Conv2D(16,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
+    model.add(Conv2D(16,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
     model.add(AveragePooling2D(pool_size=(2,2)))
     model.add(BatchNormalization())
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.3))
     
     model.add(Conv2D(32,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
     model.add(Conv2D(32,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
     model.add(AveragePooling2D(pool_size=(2,2)))
     model.add(BatchNormalization())
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.3))
 
     model.add(Flatten())
     
@@ -74,7 +74,7 @@ train_datagen = ImageDataGenerator(
 )
 
 test_datagen = ImageDataGenerator(
-    rescale=1.0/255,
+    rescale=1.0/255
 )
 
 
