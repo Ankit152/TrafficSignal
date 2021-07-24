@@ -82,7 +82,7 @@ train_generator = train_datagen.flow_from_directory(
     train_dir,
     color_mode='rgb',
     target_size=img_size,
-    batch_size=64,
+    batch_size=256,
     class_mode='sparse',
     seed=RANDOM_SEED
 )
@@ -91,15 +91,40 @@ validation_generator = test_datagen.flow_from_directory(
     test_dir,
     color_mode='rgb',
     target_size=img_size,
-    batch_size=8,
+    batch_size=64,
     class_mode='sparse',
     seed=RANDOM_SEED
 )
 
 hist = model.fit(
     train_generator,
-    epochs=2,
-    validation_split=0.2
+    epochs=20,
+    validation_data = validation_generator
 )
 
 
+# plotting the figures
+print("Plotting the figures....")
+plt.figure(figsize=(15,10))
+plt.plot(hist.history['accuracy'],c='b',label='train')
+plt.plot(hist.history['val_accuracy'],c='r',label='validation')
+plt.title("Model Accuracy vs Epochs")
+plt.xlabel("EPOCHS")
+plt.ylabel("ACCURACY")
+plt.legend(loc='lower right')
+plt.savefig('./asset/accuracy.png')
+
+
+plt.figure(figsize=(15,10))
+plt.plot(hist.history['loss'],c='orange',label='train')
+plt.plot(hist.history['val_loss'],c='g',label='validation')
+plt.title("Model Loss vs Epochs")
+plt.xlabel("EPOCHS")
+plt.ylabel("LOSS")
+plt.legend(loc='upper right')
+plt.savefig('./asset/loss.png')
+print("Figures saved in the disk....")
+
+
+model.save("./asset/TrafficNet.h5")
+print("model saved into the disk....")
