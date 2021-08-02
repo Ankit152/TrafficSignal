@@ -22,14 +22,14 @@ def create_model():
     model.add(BatchNormalization())
     model.add(Dropout(0.3))
 
-    model.add(Conv2D(16,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
-    model.add(Conv2D(16,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
+    model.add(Conv2D(32,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
+    model.add(Conv2D(32,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
     model.add(AveragePooling2D(pool_size=(2,2)))
     model.add(BatchNormalization())
     model.add(Dropout(0.3))
     
-    model.add(Conv2D(32,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
-    model.add(Conv2D(32,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
+    model.add(Conv2D(64,(3,3),padding="same",activation="relu",kernel_initializer="he_uniform"))
+    model.add(Conv2D(64,(1,1),activation="relu",padding="same",kernel_initializer="he_uniform"))
     model.add(AveragePooling2D(pool_size=(2,2)))
     model.add(BatchNormalization())
     model.add(Dropout(0.3))
@@ -48,7 +48,7 @@ print("Model Created....")
 print(model.summary())
 
 
-opt = Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, decay=0.001)
+opt = Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0.999, decay=0.001)
 loss = keras.losses.SparseCategoricalCrossentropy()
 metrics = keras.metrics.SparseCategoricalAccuracy(name="accuracy")
 
@@ -62,23 +62,12 @@ test_dir = "./data/test"
 
 RANDOM_SEED=123
 img_size=[32,32]
-train_datagen = ImageDataGenerator(
-    rotation_range=25,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    rescale=1.0/255,
-    horizontal_flip=True,
-    vertical_flip=True
-)
 
-test_datagen = ImageDataGenerator(
+datagen = ImageDataGenerator(
     rescale=1.0/255
 )
 
-
-train_generator = train_datagen.flow_from_directory(
+train_generator = datagen.flow_from_directory(
     train_dir,
     color_mode='rgb',
     target_size=img_size,
@@ -87,19 +76,19 @@ train_generator = train_datagen.flow_from_directory(
     seed=RANDOM_SEED
 )
 
-validation_generator = test_datagen.flow_from_directory(
+test_generator = datagen.flow_from_directory(
     test_dir,
     color_mode='rgb',
     target_size=img_size,
-    batch_size=64,
+    batch_size=128,
     class_mode='sparse',
     seed=RANDOM_SEED
 )
 
 hist = model.fit(
     train_generator,
-    epochs=20,
-    validation_data = validation_generator
+    epochs=100,
+    validation_data = test_generator
 )
 
 
